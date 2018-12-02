@@ -400,8 +400,11 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
                     return pieces[1].equals(mPassword);
                 }
             }
+            final LoginTable item = new LoginTable(); //TODO work on this
+            item.setUserName(mEmail);  //TODO
+            item.setPassword(mPassword);  //TODO
 
-
+            mLoginTable.insert(item); //TODO
 
             return true;
         }
