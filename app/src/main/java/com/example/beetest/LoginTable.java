@@ -14,8 +14,38 @@ public class LoginTable {
     @com.google.gson.annotations.SerializedName("Password")
     private String Password;
 
+    /**
+     * Item Id
+     */
+    @com.google.gson.annotations.SerializedName("id")
+    private String mId;
+
     public LoginTable(){
 
+    }
+
+    public LoginTable(String pword, String User) {
+       // this.mId = id;
+        this.UserName = User;
+        this.Password = pword;
+
+    }
+
+    /**
+     * Returns the item id
+     */
+    public String getId() {
+        return mId;
+    }
+
+    /**
+     * Sets the item id
+     *
+     * @param id
+     *            id to set
+     */
+    public final void setId(String id) {
+        mId = id;
     }
 
     /**
