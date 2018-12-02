@@ -123,7 +123,6 @@
     <orderEntry type="library" name="Gradle: com.android.support:transition-26.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:appcompat-v7-26.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:multidex-1.0.1" level="project" />
-    <orderEntry type="library" name="Gradle: com.jakewharton:butterknife:6.1.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.6.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-vector-drawable-26.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-fragment-26.0.0" level="project" />
