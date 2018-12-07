@@ -43,11 +43,17 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilter;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterRequest;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.table.sync.MobileServiceSyncContext;
+import com.microsoft.windowsazure.mobileservices.table.sync.localstore.ColumnDataType;
+import com.microsoft.windowsazure.mobileservices.table.sync.localstore.SQLiteLocalStore;
+import com.microsoft.windowsazure.mobileservices.table.sync.synchandler.SimpleSyncHandler;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -64,6 +70,8 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
 
 
     private MobileServiceTable<LoginTable> mLoginTable;
+
+    private MobileServiceTable<ToDoItem> mToDoTable;
 
     //Offline Sync
     /**
@@ -120,7 +128,7 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
             // Mobile Service URL and key
             mClient = new MobileServiceClient(
                     "https://beetest.azurewebsites.net",
-                    this).withFilter(new Login.ProgressFilter());
+                    this);//.withFilter(new Login.ProgressFilter());
 
 
 
@@ -137,7 +145,8 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
 
             // Get the Mobile Service Table instance to use
 
-            mLoginTable = mClient.getTable(LoginTable.class);
+            mLoginTable = mClient.getTable("LoginTable", LoginTable.class);
+            mToDoTable = mClient.getTable(ToDoItem.class);
 
         } catch (MalformedURLException e) {
             createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
@@ -380,6 +389,7 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
+
         }
 
         @Override
@@ -401,11 +411,18 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
                 }
             }
             final LoginTable item = new LoginTable(); //TODO work on this
-            item.setUserName("bee");  //TODO
-            item.setPassword("test");  //TODO
+            item.setUserName(mEmail);  //TODO
+            item.setPassword(mPassword);
+            item.setId(1);//TODO
 
-            mLoginTable.insert(item); //TODO
+            mLoginTable.insert(item);
 
+
+            final ToDoItem item2 = new ToDoItem();
+
+            item2.setText("test again.......");
+            item2.setComplete(false);
+            mToDoTable.insert(item2);
             return true;
         }
 
