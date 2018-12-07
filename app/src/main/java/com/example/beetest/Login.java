@@ -401,8 +401,8 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
                 }
             }
             final LoginTable item = new LoginTable(); //TODO work on this
-            item.setUserName(mEmail);  //TODO
-            item.setPassword(mPassword);  //TODO
+            item.setUserName("bee");  //TODO
+            item.setPassword("test");  //TODO
 
             mLoginTable.insert(item); //TODO
 
@@ -415,7 +415,7 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
             showProgress(false);
 
             if (success) {
-                finish();
+                setContentView(R.layout.activity_to_do);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
