@@ -20,6 +20,9 @@ public class LoginTable {
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
 
+    @com.google.gson.annotations.SerializedName("FirstName")
+    private String mFIrstName;
+
     public LoginTable(){
 
     }
@@ -76,5 +79,9 @@ public class LoginTable {
     public void setPassword(String text) {
         Password = text;
     }
+
+    public void setmFIrstName(String text) { mFIrstName=text;}
+
+    public String getmFIrstName() { return mFIrstName;}
 
 }
