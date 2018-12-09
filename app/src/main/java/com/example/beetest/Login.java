@@ -413,16 +413,11 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
             final LoginTable item = new LoginTable(); //TODO work on this
             item.setUserName(mEmail);  //TODO
             item.setPassword(mPassword);
-            item.setId(1);//TODO
+            //item.setId("2");//TODO
 
             mLoginTable.insert(item);
 
 
-            final ToDoItem item2 = new ToDoItem();
-
-            item2.setText("test again.......");
-            item2.setComplete(false);
-            mToDoTable.insert(item2);
             return true;
         }
 

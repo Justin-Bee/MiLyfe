@@ -18,7 +18,7 @@ public class LoginTable {
      * Item Id
      */
     @com.google.gson.annotations.SerializedName("id")
-    private int mId;
+    private String mId;
 
     public LoginTable(){
 
@@ -28,14 +28,14 @@ public class LoginTable {
        // this.mId = id;
         this.UserName = User;
         this.Password = pword;
-        this.mId=1;
+        this.mId="1";
 
     }
 
     /**
      * Returns the item id
      */
-    public int getId() {
+    public String getId() {
         return mId;
     }
 
@@ -45,7 +45,7 @@ public class LoginTable {
      * @param id
      *            id to set
      */
-    public final void setId(int id) {
+    public final void setId(String id) {
         mId = id;
     }
 
