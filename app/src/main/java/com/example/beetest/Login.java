@@ -71,7 +71,6 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
 
     private MobileServiceTable<LoginTable> mLoginTable;
 
-    private MobileServiceTable<ToDoItem> mToDoTable;
 
     //Offline Sync
     /**
@@ -146,7 +145,7 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
             // Get the Mobile Service Table instance to use
 
             mLoginTable = mClient.getTable("LoginTable", LoginTable.class);
-            mToDoTable = mClient.getTable(ToDoItem.class);
+
 
         } catch (MalformedURLException e) {
             createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
@@ -175,6 +174,14 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
             public void onClick(View view) {
                 attemptLogin();
             }
+        });
+
+        Button mCreateAccountButton = (Button) findViewById(R.id.create_account);
+        mCreateAccountButton.setOnClickListener(new OnClickListener(){
+          //  @Override
+            public void onClick(View view) {
+                setContentView(R.layout.create_account);
+                }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
