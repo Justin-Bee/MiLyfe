@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -44,6 +45,7 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterRequest;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.sync.MobileServiceSyncContext;
+import com.microsoft.windowsazure.mobileservices.table.sync.MobileServiceSyncTable;
 import com.microsoft.windowsazure.mobileservices.table.sync.localstore.ColumnDataType;
 import com.microsoft.windowsazure.mobileservices.table.sync.localstore.SQLiteLocalStore;
 import com.microsoft.windowsazure.mobileservices.table.sync.synchandler.SimpleSyncHandler;
@@ -66,27 +68,28 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
     /**
      * Mobile Service Client reference
      */
-    private MobileServiceClient mClient;
+    public static MobileServiceClient mClient;
 
 
-    private MobileServiceTable<LoginTable> mLoginTable;
+    public static MobileServiceTable<LoginTable> mLoginTable;
 
 
     //Offline Sync
     /**
      * Mobile Service Table used to access and Sync data
+     *
      */
-    //private MobileServiceSyncTable<ToDoItem> mToDoTable;
+     public MobileServiceSyncTable<ToDoItem> mToDoTable;
 
     /**
      * Adapter to sync the items list with the view
      */
-    private ToDoItemAdapter mAdapter;
+   // private ToDoItemAdapter mAdapter;
 
     /**
      * EditText containing the "New To Do" text
      */
-    private EditText mTextNewToDo;
+  //  private EditText mTextNewToDo;
 
     /**
      * Progress spinner to use for table operations
@@ -121,36 +124,36 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-       // try {
+        try {
             // Create the Mobile Service Client instance, using the provided
 
             // Mobile Service URL and key
-        //    mClient = new MobileServiceClient(
-           //         "https://beetest.azurewebsites.net",
-          //          this);//.withFilter(new Login.ProgressFilter());
+             mClient = new MobileServiceClient(
+                   "https://beetest.azurewebsites.net",
+                    this);//.withFilter(new Login.ProgressFilter());
 
 
 
             // Extend timeout from default of 10s to 20s
-        //    mClient.setAndroidHttpClientFactory(new OkHttpClientFactory() {
-         //       @Override
-         //       public OkHttpClient createOkHttpClient() {
-        //            OkHttpClient client = new OkHttpClient();
-        //           client.setWriteTimeout(20, TimeUnit.SECONDS);
-         //           return client;
-        //        }
-       //     });
+            mClient.setAndroidHttpClientFactory(new OkHttpClientFactory() {
+                @Override
+               public OkHttpClient createOkHttpClient() {
+                    OkHttpClient client = new OkHttpClient();
+                   client.setWriteTimeout(2000, TimeUnit.SECONDS);
+                    return client;
+                }
+            });
 
             // Get the Mobile Service Table instance to use
 
-        //    mLoginTable = mClient.getTable("LoginTable", LoginTable.class);
+            mLoginTable = mClient.getTable("LoginTable", LoginTable.class);
 
 
-     //   } catch (MalformedURLException e) {
-       //     createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
-     //   } catch (Exception e){
-     //       createAndShowDialog(e, "Error");
-     //   }
+        } catch (MalformedURLException e) {
+            createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
+        } catch (Exception e) {
+            createAndShowDialog(e, "Error");
+        }
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -179,7 +182,9 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
         mCreateAccountButton.setOnClickListener(new OnClickListener(){
           //  @Override
             public void onClick(View view) {
-                setContentView(R.layout.create_account);
+                Intent intent = new Intent(Login.this, Account_Create.class);
+
+                startActivity(intent);
                 }
         });
 
@@ -433,7 +438,9 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
             showProgress(false);
 
             if (success) {
-                setContentView(R.layout.activity_to_do);
+                Intent intent = new Intent(Login.this, ToDoActivity.class);
+
+                startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

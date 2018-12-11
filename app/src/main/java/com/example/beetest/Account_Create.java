@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -27,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.example.beetest.Login;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -53,31 +55,9 @@ public class Account_Create extends AppCompatActivity implements LoaderManager.L
     /**
      * Mobile Service Client reference
      */
-    private MobileServiceClient mClient;
+   // private MobileServiceClient mClient;
 
 
-    private MobileServiceTable<LoginTable> mLoginTable;
-
-
-    //Offline Sync
-    /**
-     * Mobile Service Table used to access and Sync data
-     */
-    //private MobileServiceSyncTable<ToDoItem> mToDoTable;
-
-    /**
-     * Adapter to sync the items list with the view
-     */
-    private ToDoItemAdapter mAdapter;
-
-    /**
-     * EditText containing the "New To Do" text
-     */
-    private EditText mTextNewToDo;
-
-    /**
-     * Progress spinner to use for table operations
-     */
     private ProgressBar mProgressBar;
 
     /**
@@ -109,43 +89,23 @@ public class Account_Create extends AppCompatActivity implements LoaderManager.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account);
 
-        try {
-            // Create the Mobile Service Client instance, using the provided
 
-            // Mobile Service URL and key
-            mClient = new MobileServiceClient(
-                    "https://beetest.azurewebsites.net",
-                    this);//.withFilter(new Login.ProgressFilter());
-
-
-
-            // Extend timeout from default of 10s to 20s
-            mClient.setAndroidHttpClientFactory(new OkHttpClientFactory() {
-                @Override
-                public OkHttpClient createOkHttpClient() {
-                    OkHttpClient client = new OkHttpClient();
-                    client.setReadTimeout(20, TimeUnit.SECONDS);
-                    client.setWriteTimeout(20, TimeUnit.SECONDS);
-                    return client;
-                }
-            });
-
-            // Get the Mobile Service Table instance to use
-
-            mLoginTable = mClient.getTable("LoginTable", LoginTable.class);
-
-
-        } catch (MalformedURLException e) {
-            createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
-        } catch (Exception e){
-            createAndShowDialog(e, "Error");
-        }
 
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
         mFirstNameView = (EditText) findViewById(R.id.firstName);
+        mFirstNameView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
+                    attemptLogin();
+                    return true;
+                }
+                return false;
+            }
+        });
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -413,7 +373,7 @@ public class Account_Create extends AppCompatActivity implements LoaderManager.L
             item.setmFIrstName(mFirstName);
             //item.setId("2");//TODO
 
-            mLoginTable.insert(item);
+            Login.mLoginTable.insert(item);
 
 
             return true;
@@ -425,7 +385,9 @@ public class Account_Create extends AppCompatActivity implements LoaderManager.L
             showProgress(false);
 
             if (success) {
-                setContentView(R.layout.activity_to_do);
+                Intent intent = new Intent(Account_Create.this, ToDoActivity.class);
+
+                startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
