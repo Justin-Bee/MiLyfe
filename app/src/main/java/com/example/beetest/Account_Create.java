@@ -140,6 +140,8 @@ public class Account_Create extends AppCompatActivity implements LoaderManager.L
         } catch (Exception e){
             createAndShowDialog(e, "Error");
         }
+
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -266,6 +268,8 @@ public class Account_Create extends AppCompatActivity implements LoaderManager.L
             mAuthTask = new Account_Create.UserLoginTask(email, password, firstName);
             mAuthTask.execute((Void) null);
         }
+        mAuthTask = new Account_Create.UserLoginTask(email, password, firstName);
+        mAuthTask.execute((Void) null);
     }
 
     private boolean isEmailValid(String email) {

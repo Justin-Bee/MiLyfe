@@ -121,37 +121,36 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        try {
+       // try {
             // Create the Mobile Service Client instance, using the provided
 
             // Mobile Service URL and key
-            mClient = new MobileServiceClient(
-                    "https://beetest.azurewebsites.net",
-                    this);//.withFilter(new Login.ProgressFilter());
+        //    mClient = new MobileServiceClient(
+           //         "https://beetest.azurewebsites.net",
+          //          this);//.withFilter(new Login.ProgressFilter());
 
 
 
             // Extend timeout from default of 10s to 20s
-            mClient.setAndroidHttpClientFactory(new OkHttpClientFactory() {
-                @Override
-                public OkHttpClient createOkHttpClient() {
-                    OkHttpClient client = new OkHttpClient();
-                    client.setReadTimeout(20, TimeUnit.SECONDS);
-                    client.setWriteTimeout(20, TimeUnit.SECONDS);
-                    return client;
-                }
-            });
+        //    mClient.setAndroidHttpClientFactory(new OkHttpClientFactory() {
+         //       @Override
+         //       public OkHttpClient createOkHttpClient() {
+        //            OkHttpClient client = new OkHttpClient();
+        //           client.setWriteTimeout(20, TimeUnit.SECONDS);
+         //           return client;
+        //        }
+       //     });
 
             // Get the Mobile Service Table instance to use
 
-            mLoginTable = mClient.getTable("LoginTable", LoginTable.class);
+        //    mLoginTable = mClient.getTable("LoginTable", LoginTable.class);
 
 
-        } catch (MalformedURLException e) {
-            createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
-        } catch (Exception e){
-            createAndShowDialog(e, "Error");
-        }
+     //   } catch (MalformedURLException e) {
+       //     createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
+     //   } catch (Exception e){
+     //       createAndShowDialog(e, "Error");
+     //   }
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
